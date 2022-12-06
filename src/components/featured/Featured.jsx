@@ -1,8 +1,13 @@
+import React, { useState } from "react";
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
-import React from "react";
 import "./featured.scss";
+import defaultLogo from "../../assets/stranger_thing_logo.png";
+import { Fade } from "react-awesome-reveal";
 
-const featured = ({ type }) => {
+const Featured = ({ type }) => {
+  const [showDesc, setShowDesc] = useState(true);
+
+  setTimeout(() => setShowDesc(false), 5000);
   return (
     <div className="featured">
       {type && (
@@ -16,32 +21,34 @@ const featured = ({ type }) => {
             <option value="fantasy">Fantasy</option>
             <option value="historical">Historical</option>
             <option value="horror">Horror</option>
-            <option value="roamnce">Romance</option>
+            <option value="romance">Romance</option>
             <option value="sci-fi">Sci-fi</option>
             <option value="thriller">Thriller</option>
             <option value="western">Western</option>
             <option value="animation">Animation</option>
             <option value="drama">Drama</option>
-            <option value="documentry">Documentry</option>
+            <option value="documentary">Documentary</option>
           </select>
         </div>
       )}
       <img
-        width="100%"
-        src="https://images.pexels.com/photos/2061678/pexels-photo-2061678.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt="featured"
+        src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/8a6a68144592045.628efcd3e77b5.jpg"
+        alt=""
       />
       <div className="info">
-        <img
-          src="https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
-        />
-        <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, sunt
-          necessitatibus. Exercitationem saepe accusamus magnam nostrum nisi
-          maxime cupiditate modi a maiores commodi, alias quaerat, beatae
-          mollitia quae cum. Voluptas?
-        </span>
+        <Fade>
+          <div className={`logoDesc${showDesc ? "" : " logoDescNone"}`}>
+            <img src={defaultLogo} alt="" />
+
+            <div className="desc">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
+              adipisci repellendus eum quasi illo, velit numquam, maxime tempora
+              sint deleniti, aliquid qui? Facilis, adipisci! Ratione hic
+              repudiandae temporibus eum earum?
+            </div>
+          </div>
+        </Fade>
+
         <div className="buttons">
           <button className="play">
             <PlayArrow />
@@ -57,4 +64,4 @@ const featured = ({ type }) => {
   );
 };
 
-export default featured;
+export default Featured;

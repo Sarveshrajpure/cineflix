@@ -1,0 +1,52 @@
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  padding: 0.5rem 0;
+  user-select: none;
+
+  h1 {
+    margin-left: 50px;
+    color: white;
+  }
+  .wrapper {
+    .slider {
+      width: max-content;
+      gap: 1rem;
+      transform: translateX(0px);
+      transition: 100ms ease-in-out;
+      margin-left: 50px;
+    }
+  }
+}
+
+.slider {
+  display: flex;
+}
+
+.sliderAction {
+  display: flex;
+  color: white;
+  position: absolute;
+  align-items: center;
+  z-index: 9;
+  height: 50%;
+  top: 46%;
+  bottom: 0;
+  width: 35px;
+  background-color: rgba(22, 22, 22, 0.7);
+  transition: 100ms ease-in-out;
+  font-size: 3rem;
+  cursor: pointer;
+  padding-left: 10px;
+}
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+}
+.none {
+  display: none;
+}

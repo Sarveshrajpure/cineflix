@@ -1,0 +1,68 @@
+import {
+  ArrowBackIosOutlined,
+  ArrowForwardIosOutlined,
+} from "@material-ui/icons";
+import { useRef, useState } from "react";
+import ListItem from "../listitem/ListItem";
+import "./listSlider.scss";
+
+const ListSlider = () => {
+  const [showControls, setShowControls] = useState(false);
+  const [sliderPosition, setSliderPosition] = useState(0);
+  const listRef = useRef();
+
+  const handleDirection = (direction) => {
+    let distance = listRef.current.getBoundingClientRect().x - 50;
+
+    if (direction === "left" && sliderPosition > 0) {
+      listRef.current.style.transform = `translateX(${230 + distance}px)`;
+      setSliderPosition(sliderPosition - 1);
+    }
+
+    if (direction === "right" && sliderPosition < 5) {
+      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+      setSliderPosition(sliderPosition + 1);
+    }
+  };
+  return (
+    <div
+      className="listContainer"
+      onMouseEnter={() => {
+        setShowControls(true);
+      }}
+      onMouseLeave={() => {
+        setShowControls(false);
+      }}
+    >
+      <h1>Continue to watch</h1>
+      <div className="wrapper">
+        <div
+          className={`sliderAction left ${!showControls ? "none" : ""}`}
+          onClick={() => handleDirection("left")}
+        >
+          <ArrowBackIosOutlined />
+        </div>
+        <div className="slider" ref={listRef}>
+          <ListItem index={1} />
+          <ListItem index={2} />
+          <ListItem index={3} />
+          <ListItem index={4} />
+          <ListItem index={5} />
+          <ListItem index={6} />
+          <ListItem index={7} />
+          <ListItem index={8} />
+          <ListItem index={9} />
+          <ListItem index={10} />
+        </div>
+        <div
+          className={`sliderAction right ${!showControls ? "none" : ""}`}
+          onClick={() => handleDirection("right")}
+        >
+          <ArrowForwardIosOutlined />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ListSlider;
