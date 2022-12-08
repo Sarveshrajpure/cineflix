@@ -1,24 +1,30 @@
 import { ArrowBackOutlined } from "@material-ui/icons";
 import React, { useEffect, useRef } from "react";
+import { useLocation, Link } from "react-router-dom";
 import "./watch.scss";
 
 const Watch = () => {
   const playerRef = useRef(null);
+  const location = useLocation();
+
+  let videoLink = location.state?.movie;
 
   return (
     <div className="watch">
       <div className="back">
-        <ArrowBackOutlined className="backIcon" />
+        <Link to="/" className="link">
+          <ArrowBackOutlined className="backIcon" />
+        </Link>
       </div>
       <video
         className="video"
         autoPlay
-        progresss
+        progresss="true"
         muted
         controls
         ref={playerRef}
         id="videoPlayer"
-        src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761"
+        src={videoLink.video}
       />
     </div>
   );

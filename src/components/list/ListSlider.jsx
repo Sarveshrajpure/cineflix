@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import ListItem from "../listitem/ListItem";
 import "./listSlider.scss";
 
-const ListSlider = () => {
+const ListSlider = ({ list }) => {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const listRef = useRef();
@@ -34,7 +34,7 @@ const ListSlider = () => {
         setShowControls(false);
       }}
     >
-      <h1>Continue to watch</h1>
+      <h1>{list.title}</h1>
       <div className="wrapper">
         <div
           className={`sliderAction left ${!showControls ? "none" : ""}`}
@@ -43,16 +43,9 @@ const ListSlider = () => {
           <ArrowBackIosOutlined />
         </div>
         <div className="slider" ref={listRef}>
-          <ListItem index={1} />
-          <ListItem index={2} />
-          <ListItem index={3} />
-          <ListItem index={4} />
-          <ListItem index={5} />
-          <ListItem index={6} />
-          <ListItem index={7} />
-          <ListItem index={8} />
-          <ListItem index={9} />
-          <ListItem index={10} />
+          {list.content.map((item, index) => (
+            <ListItem key={index} index={index} item={item} />
+          ))}
         </div>
         <div
           className={`sliderAction right ${!showControls ? "none" : ""}`}

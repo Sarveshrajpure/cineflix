@@ -1,18 +1,36 @@
-import React, { useState } from "react";
-import { InfoOutlined, PlayArrow } from "@material-ui/icons";
+import React, { useState, useEffect } from "react";
+import { InfoOutlined, PlayArrow, RssFeed } from "@material-ui/icons";
 import "./featured.scss";
 import defaultLogo from "../../assets/stranger_thing_logo.png";
 import { Fade } from "react-awesome-reveal";
+import { getRandomContent } from "../../api/contentApis";
 
 const Featured = ({ type }) => {
   const [showDesc, setShowDesc] = useState(true);
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const getContent = async () => {
+      try {
+        let response = await getRandomContent(
+          `${type ? `?contentType=${type}` : ""}`
+        );
+        setContent(response[0]);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getContent();
+  }, []);
 
   setTimeout(() => setShowDesc(false), 5000);
   return (
     <div className="featured">
       {type && (
         <div className="category">
-          <span>{type === "movie" ? "Movies" : "Series"}</span>
+          <span>{type === "movies" ? "Movies" : "Tv Shows"}</span>
           <select name="genre" id="genre">
             <option>Genre</option>
             <option value="adventure">Adventure</option>
@@ -31,21 +49,13 @@ const Featured = ({ type }) => {
           </select>
         </div>
       )}
-      <img
-        src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/8a6a68144592045.628efcd3e77b5.jpg"
-        alt=""
-      />
+      <img src={content.img} alt="" />
       <div className="info">
         <Fade>
           <div className={`logoDesc${showDesc ? "" : " logoDescNone"}`}>
-            <img src={defaultLogo} alt="" />
+            <img src={content.imgSm} alt="" />
 
-            <div className="desc">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-              adipisci repellendus eum quasi illo, velit numquam, maxime tempora
-              sint deleniti, aliquid qui? Facilis, adipisci! Ratione hic
-              repudiandae temporibus eum earum?
-            </div>
+            <div className="desc">{content.desc}</div>
           </div>
         </Fade>
 
