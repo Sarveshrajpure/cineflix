@@ -1,45 +1,53 @@
+import React from "react";
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
-import "./App.css";
+import "./app.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import UserList from "./pages/userList/UserList";
-import User from "./pages/user/User";
-import NewUser from "./pages/newUser/NewUser";
-import ProductList from "./pages/productList/ProductList";
-import Product from "./pages/product/Product";
-import NewProduct from "./pages/newProduct/NewProduct";
+import MovieList from "./pages/movieList/movieList";
+import Movie from "./pages/movie/Movie";
+import AddContent from "./pages/addContent/AddContent";
+import Login from "./pages/login/Login";
+import PrivateRoute from "./utilities/PrivateRoute";
+import PreventSigninRoute from "./utilities/PreventSigninRoute";
+import { Toaster } from "react-hot-toast";
 
 function App() {
+  // console.log(user);
   return (
     <Router>
-      <Topbar />
-      <div className="container">
-        <Sidebar />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/products">
-            <ProductList />
-          </Route>
-          <Route path="/product/:productId">
-            <Product />
-          </Route>
-          <Route path="/newproduct">
-            <NewProduct />
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+        <PreventSigninRoute exact path="/login">
+          <Login />
+        </PreventSigninRoute>
+        <>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#FFFFFF",
+                color: "#5063F0",
+              },
+            }}
+          ></Toaster>
+          <Topbar />
+          <div className="container">
+            <Sidebar />
+            <PrivateRoute exact path="/">
+              <Home />
+            </PrivateRoute>
+            <PrivateRoute path="/movies">
+              <MovieList />
+            </PrivateRoute>
+            <PrivateRoute path="/movie/:id">
+              <Movie />
+            </PrivateRoute>
+            <Route path="/addcontent">
+              <AddContent />
+            </Route>
+          </div>
+        </>
+      </Switch>
     </Router>
   );
 }
