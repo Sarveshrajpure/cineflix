@@ -1,27 +1,16 @@
-import {
-  REGISTER_USER,
-  LOGIN_USER,
-  VERIFY_USER,
-  SIGNOUT_USER,
-} from "../Actions/types";
-let userDefault = {
-  _id: null,
-  email: null,
-  password: null,
-  isAdmin: false,
-};
-const userReducer = (state = { loginInfo: userDefault }, action) => {
+import { GET_LISTS, DELETE_LISTS } from "../Actions/types";
+let listDefault = [];
+const listReducer = (state = listDefault, action) => {
   switch (action.type) {
-    case LOGIN_USER:
+    case GET_LISTS:
       return {
         ...state,
-        loginInfo: { ...action.payload },
+        lists: action.payload,
       };
-    case SIGNOUT_USER:
+    case DELETE_LISTS:
       return {
         ...state,
-        loginInfo: { ...userDefault },
-        auth: false,
+        lists: action.payload,
       };
 
     default:
@@ -29,4 +18,4 @@ const userReducer = (state = { loginInfo: userDefault }, action) => {
   }
 };
 
-export default userReducer;
+export default listReducer;

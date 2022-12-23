@@ -53,7 +53,7 @@ const Featured = ({ type }) => {
       <div className="info">
         <Fade>
           <div className={`logoDesc${showDesc ? "" : " logoDescNone"}`}>
-            <img src={content.imgSm} alt="" />
+            <img src={content.imgTitle} alt="" />
 
             <div className="desc">{content.desc}</div>
           </div>

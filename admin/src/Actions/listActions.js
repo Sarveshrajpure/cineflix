@@ -1,10 +1,11 @@
-import { LOGIN_USER, SIGNOUT_USER } from "./types";
+import { GET_LISTS, DELETE_LISTS } from "./types";
 
-export const login_user = (user) => ({
-  type: LOGIN_USER,
-  payload: user,
+export const get_Lists = (lists) => ({
+  type: GET_LISTS,
+  payload: lists,
 });
 
-export const signout_user = () => ({
-  type: SIGNOUT_USER,
+export const delete_Lists = (lists) => ({
+  type: DELETE_LISTS,
+  payload: lists,
 });

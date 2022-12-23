@@ -26,3 +26,12 @@ export const deleteMovie = async (values) => {
   );
   return response.data;
 };
+
+export const addContent = async (values) => {
+  let response = await axiosInstance.post(
+    "content/addcontent",
+    values,
+    getAuthHeader()
+  );
+  return response.data;
+};

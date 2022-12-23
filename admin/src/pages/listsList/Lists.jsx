@@ -1,30 +1,28 @@
-import "./movieList.css";
+import "./lists.css";
 import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { getMovies, deleteMovie } from "../../apis/contentApis";
+import { getLists, deleteLists } from "../../apis/listsApis";
 import { useDispatch } from "react-redux";
-import { get_movies, delete_movies } from "../../Actions/contentActions";
+import { delete_Lists, get_Lists } from "../../Actions/listActions";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-export default function MovieList() {
+export default function List() {
   const dispatch = useDispatch();
-  const movie = useSelector((state) =>
-    state.Content.movies ? state.Content.movies : []
-  );
+  const lists = useSelector((state) => (state.List ? state.List.lists : []));
 
   const handleDelete = async (id, type) => {
     try {
-      let response = await deleteMovie({ content_id: id, type: "movie" });
+      let response = await deleteLists({ id: id });
 
       toast.success("Content deleted!");
-      let removeMovie = movie.filter((movie) => {
-        return movie._id !== id;
+      let removeList = lists.filter((list) => {
+        return list._id !== id;
       });
-      dispatch(delete_movies(removeMovie));
+      dispatch(delete_Lists(removeList));
     } catch (error) {
       toast.error("Error deleting content");
       console.log(error);
@@ -34,35 +32,20 @@ export default function MovieList() {
   };
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchLists = async () => {
       try {
-        let response = await getMovies();
-        console.log(response);
-        dispatch(get_movies(response));
+        let response = await getLists();
+
+        dispatch(get_Lists(response));
       } catch (error) {}
     };
 
-    fetchMovies();
+    fetchLists();
   }, [dispatch]);
-  console.log(movie);
   const columns = [
     { field: "_id", headerName: "ID", width: 250 },
-    {
-      field: "title",
-      headerName: "Content Name",
-      width: 250,
-      renderCell: (params) => {
-        return (
-          <div className="movieListItem">
-            <img className="movieListImg" src={params.row.imgTitle} alt="" />
-            {params.row.title}
-          </div>
-        );
-      },
-    },
+    { field: "title", headerName: "Title", width: 250 },
     { field: "genre", headerName: "Genre", width: 120 },
-    { field: "year", headerName: "Year", width: 120 },
-    { field: "limit", headerName: "Limit", width: 120 },
     { field: "type", headerName: "Type", width: 120 },
 
     {
@@ -72,7 +55,7 @@ export default function MovieList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/movie/" + params.row._id}>
+            <Link to={"/list/" + params.row._id}>
               <button className="movieListEdit">Edit</button>
             </Link>
             <DeleteOutline
@@ -88,14 +71,14 @@ export default function MovieList() {
   return (
     <div className="movieList">
       <div className="contentTitleContainer">
-        <h1 className="contentTitle">Content</h1>
-        <Link to="/addcontent">
-          <button className="contentAddButton">Add content</button>
+        <h1 className="contentTitle">Lists</h1>
+        <Link to="/addlist">
+          <button className="contentAddButton">Add List</button>
         </Link>
       </div>
 
       <DataGrid
-        rows={movie}
+        rows={lists}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}

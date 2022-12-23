@@ -14,7 +14,7 @@ const PrivateRoute = ({ children, ...rest }) => {
       try {
         /* Update effect logic to track correct state */
         const isUserLogged = await userIsAuth();
-        console.log(isUserLogged);
+
         if (isUserLogged) {
           setState(isUserLogged ? "loggedin" : "redirect");
         } else {

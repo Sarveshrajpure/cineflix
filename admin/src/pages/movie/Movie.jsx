@@ -21,15 +21,12 @@ export default function Movie() {
     };
 
     getMovie();
-  });
+  }, [movieId.id]);
   console.log(movie);
   return (
     <div className="product">
       <div className="productTitleContainer">
         <h1 className="productTitle">Edit Movie</h1>
-        <Link to="/newproduct">
-          <button className="productAddButton">Create</button>
-        </Link>
       </div>
       <div className="productTop">
         <div className="productTopRight">
