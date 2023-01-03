@@ -31,3 +31,23 @@ export const addList = async (values) => {
   );
   return response.data;
 };
+
+export const deleteListItem = async (values) => {
+  let response = await axiosInstance.post(
+    "lists/removeitem",
+    values,
+    getAuthHeader()
+  );
+
+  return response.data;
+};
+
+export const addListItems = async (values) => {
+  let response = await axiosInstance.post(
+    "lists/additem",
+    values,
+    getAuthHeader()
+  );
+
+  return response.data;
+};

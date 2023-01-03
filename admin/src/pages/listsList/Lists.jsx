@@ -77,14 +77,18 @@ export default function List() {
         </Link>
       </div>
 
-      <DataGrid
-        rows={lists}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        getRowId={(r) => r._id}
-        components={{ Toolbar: GridToolbarFilterButton }}
-      />
+      {lists ? (
+        <DataGrid
+          rows={lists}
+          disableSelectionOnClick
+          columns={columns}
+          pageSize={8}
+          getRowId={(r) => r._id}
+          components={{ Toolbar: GridToolbarFilterButton }}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

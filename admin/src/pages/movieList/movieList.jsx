@@ -2,11 +2,10 @@ import "./movieList.css";
 import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { getMovies, deleteMovie } from "../../apis/contentApis";
 import { useDispatch } from "react-redux";
 import { get_movies, delete_movies } from "../../Actions/contentActions";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -37,14 +36,13 @@ export default function MovieList() {
     const fetchMovies = async () => {
       try {
         let response = await getMovies();
-        console.log(response);
         dispatch(get_movies(response));
       } catch (error) {}
     };
 
     fetchMovies();
-  }, [dispatch]);
-  console.log(movie);
+  }, []);
+
   const columns = [
     { field: "_id", headerName: "ID", width: 250 },
     {
@@ -93,15 +91,18 @@ export default function MovieList() {
           <button className="contentAddButton">Add content</button>
         </Link>
       </div>
-
-      <DataGrid
-        rows={movie}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        getRowId={(r) => r._id}
-        components={{ Toolbar: GridToolbarFilterButton }}
-      />
+      {movie[0] ? (
+        <DataGrid
+          rows={movie}
+          disableSelectionOnClick
+          columns={columns}
+          pageSize={8}
+          getRowId={(r) => r._id}
+          components={{ Toolbar: GridToolbarFilterButton }}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

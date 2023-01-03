@@ -1,7 +1,7 @@
 import { axiosInstance } from "../utilities/axiosHelper";
 import { getAuthHeader, getTokenCookie } from "../utilities/authTools";
 
-export const getMovies = async (values) => {
+export const getMovies = async () => {
   let response = await axiosInstance.post(
     "content/getall",
     {},

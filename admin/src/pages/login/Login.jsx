@@ -6,8 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validations/loginValidations";
 import { loginUser } from "../../apis/userApis";
 import BarLoader from "react-spinners/BarLoader";
-import { removeTokenCookie } from "../../utilities/authTools";
-import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login_user } from "../../Actions/userActions";
 import { useHistory } from "react-router-dom";
@@ -33,16 +31,9 @@ const Login = () => {
 
       let userCredentials = { email: data.email, password: data.password };
       let login = await loginUser(userCredentials);
-
-      if (login.isAdmin) {
-        dispatch(login_user(login));
-        setLoading(false);
-        history.push("/");
-      } else {
-        setLoading(false);
-        setError("Access Denied!");
-        removeTokenCookie();
-      }
+      dispatch(login_user(login));
+      setLoading(false);
+      history.push("/");
     } catch (error) {
       setLoading(false);
       if (error.response.data) {
