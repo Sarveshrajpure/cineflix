@@ -1,53 +1,33 @@
 import Home from "./pages/home/Home";
 import "./App.scss";
+import PreventSigninRoute from "./utilities/PreventSigninRoute";
+import PrivateRoute from "./utilities/PrivateRoute";
+
 import Watch from "./pages/watch/Watch";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
-
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import Profile from "./pages/profile";
+import EditProfile from "./pages/profile/components/editProfile";
+import AddProfile from "./pages/profile/components/addProfile";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const user = true;
   return (
-    <Router>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={user ? <Home /> : <Navigate to="/register" />}
-        />
-        <Route
-          exact
-          path="/register"
-          element={!user ? <Register /> : <Navigate to="/" />}
-        />
-        <Route
-          exact
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/" />}
-        />
-        <Route
-          exact
-          path="/movies"
-          element={user ? <Home type={"movies"} /> : <Navigate to="/login" />}
-        />
-        <Route
-          exact
-          path="/series"
-          element={user ? <Home type={"series"} /> : <Navigate to="/login" />}
-        />
-        <Route
-          exact
-          path="/watch"
-          element={user ? <Watch /> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route exact path="/register" element={<Register />} />
+      <Route exact path="/login" element={<Login />} />
+
+      <Route path="/" element={<PrivateRoute />}>
+        <Route exact path="/" element={<Profile />} />
+        <Route exact path="/editProfile" element={<EditProfile />} />
+        <Route exact path="/addProfile" element={<AddProfile />} />
+        <Route exact path="/home" element={<Home />} />
+
+        <Route exact path="/movies" element={<Home type={"movies"} />} />
+        <Route exact path="/series" element={<Home type={"series"} />} />
+        <Route exact path="/watch" element={<Watch />} />
+      </Route>
+    </Routes>
   );
 }
 

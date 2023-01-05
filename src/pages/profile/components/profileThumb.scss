@@ -1,0 +1,63 @@
+.profileThumbContainer{
+    color:white;
+    text-align:center;
+    width:100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin:5px;
+    
+}
+
+.profileThumbBtn{
+    width:100px;
+    height:100px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all ease-in 20ms;
+}
+
+.profileThumbBtn:hover{
+    border: 3px solid white;
+}
+
+.profileThumbAvatar{
+    height: 20%;
+    width: 20%;
+}
+
+.fa-pen{
+    color:white
+}
+
+.profileSettingsIconBlock{
+    position: absolute;
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    width:100px; 
+}
+
+.blurBlock{
+    position: absolute;
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    min-height: 100px;
+    min-width:100px;
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+  
+    background-color: rgba(96, 96, 96, 0.8);
+}
+
+.profileSettingsIcon{
+    position: relative;
+    top:40%;
+    color:azure;
+   
+}

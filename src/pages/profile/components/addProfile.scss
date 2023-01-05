@@ -1,0 +1,77 @@
+.addProfileContainer{
+    background-color: black;
+    min-height: 100vh;
+    color:white
+}
+
+.addProfileHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 1rem 0 1rem;
+    height: 4rem;
+
+}
+
+
+.addProfilesBtn{
+    cursor: pointer;
+    font-size: large;
+    display: flex;
+   padding: 0 0.5rem 0 0.5rem;
+    justify-content: space-between;
+    
+}
+.saveProfilesBtn{
+    cursor: pointer;
+    font-size: large;
+    display: flex;
+  
+    justify-content: space-between;
+    
+}
+
+
+.addProfileThumbBlock{
+    position: absolute;
+    top:40%;
+    left:25%;
+    width:50%;
+    display: flex;
+    
+    justify-content: center;
+    
+    
+}
+
+.addProfileThumbInputBlock{
+ 
+    display: flex;
+    width:50%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.profileNameInputBlock{
+    display: flex;
+    align-items: center;
+}
+
+input {
+    height: 40px;
+    border-radius: 5px;
+    background-color: var(--input-dark-grey-color);
+    color: white;
+    padding-left: 10px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: var(--place-holder-color);
+    }
+  }
+
+ .addDeleteProfileBlock{
+    display: flex;
+ }

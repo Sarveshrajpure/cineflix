@@ -1,15 +1,37 @@
 import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { signout_user } from "../../actions/userActions";
+import { userSignOut } from "../../api/loginApis";
+import { set_profile } from "../../actions/profileActions";
+import Avatar from "react-avatar";
 import "./navbar.scss";
 import logo from "../../assets/Cineflix.svg";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const profile = useSelector((state) =>
+    state.Profile.selectedProfile.id ? state.Profile.selectedProfile : null
+  );
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
+  };
+
+  const handleSwitchProfiles = () => {
+    navigate("/");
+  };
+  const handleLogout = () => {
+    userSignOut();
+    dispatch(signout_user());
+    dispatch(set_profile({ id: null, name: null }));
+    navigate("/login");
   };
   return (
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
@@ -32,17 +54,28 @@ const Navbar = () => {
         </div>
         <div className="right">
           <Search className="icon" />
-          <span>KID</span>
+
           <Notifications className="icon" />
-          <img
-            src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            alt=""
-          />
+
+          <Avatar name={profile.name} size={35} textSizeRatio={1} />
+
           <div className="profile">
             <ArrowDropDown className="icon" />
             <div className="options">
-              <span>Settings</span>
-              <span>Logout</span>
+              <span
+                onClick={() => {
+                  handleSwitchProfiles();
+                }}
+              >
+                Switch Profile
+              </span>
+              <span
+                onClick={() => {
+                  handleLogout();
+                }}
+              >
+                Logout
+              </span>
             </div>
           </div>
         </div>
