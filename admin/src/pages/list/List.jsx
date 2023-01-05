@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { addListItems, getListById } from "../../apis/listsApis";
 import { useState } from "react";
-import { getMovies, getMoviesById } from "../../apis/contentApis";
+import { getMovies, getSeries, getMoviesById } from "../../apis/contentApis";
 import { deleteListItem } from "../../apis/listsApis";
 import { DeleteOutline } from "@material-ui/icons";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { toast } from "react-hot-toast";
 import BarLoader from "react-spinners/BarLoader";
 import { useHistory } from "react-router-dom";
@@ -30,29 +30,7 @@ export default function List() {
   const [selectedContent, setSelectContent] = useState([]);
   const history = useHistory();
 
-  // const movies = useSelector((state)=>state.)
-
-  const openModal = () => {
-    let map = new Map();
-    if (listContent) {
-      for (let i = 0; i < listContent.length; i++) {
-        map.set(listContent[i]._id, true);
-      }
-
-      console.log(map);
-
-      let newArr = [];
-      for (let i = 0; i < content.length; i++) {
-        if (!map.has(content[i]._id)) {
-          newArr.push(content[i]);
-        }
-      }
-
-      setContent(newArr);
-    }
-
-    setOpenDialog(true);
-  };
+  let listId = useParams();
 
   const handleDelete = async (id, type) => {
     try {
@@ -78,8 +56,6 @@ export default function List() {
       console.log(error);
     }
   };
-
-  let listId = useParams();
 
   useEffect(() => {
     const getList = async () => {
@@ -118,18 +94,24 @@ export default function List() {
   }, [list]);
 
   useEffect(() => {
-    const getAllContent = async () => {
+    const getAllItems = async () => {
       try {
-        let resposne = await getMovies();
+        if (list.type === "movie") {
+          let resposne = await getMovies();
+          setContent(resposne);
+        }
 
-        setContent(resposne);
+        if (list.type === "series") {
+          let resposne = await getSeries();
+          setContent(resposne);
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
-    getAllContent();
-  }, [setContent]);
+    getAllItems();
+  }, [list]);
 
   const onCheckBoxChange = (e) => {
     let label = e.target.name;
@@ -183,6 +165,26 @@ export default function List() {
     }
   };
 
+  const openModal = () => {
+    let map = new Map();
+    if (listContent) {
+      for (let i = 0; i < listContent.length; i++) {
+        map.set(listContent[i]._id, true);
+      }
+
+      let newArr = [];
+      for (let i = 0; i < content.length; i++) {
+        if (!map.has(content[i]._id)) {
+          newArr.push(content[i]);
+        }
+      }
+
+      setContent(newArr);
+    }
+
+    setOpenDialog(true);
+  };
+
   const columns = [
     { field: "_id", headerName: "ID", width: 250 },
     {
@@ -220,7 +222,6 @@ export default function List() {
     },
   ];
 
-  console.log(content);
   return (
     <div className="product">
       <div className="productTitleContainer">
@@ -283,6 +284,7 @@ export default function List() {
             columns={columns}
             pageSize={8}
             getRowId={(r) => r._id}
+            components={{ Toolbar: GridToolbarFilterButton }}
           />
         ) : (
           <div className="listItemloaderContainer">

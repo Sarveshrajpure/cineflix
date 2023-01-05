@@ -36,14 +36,14 @@ const ListItem = ({ item, index }) => {
           setIsHovered(false);
         }}
       >
-        <img src={movie.img} alt="" />
+        <img src={movie.imgSm} alt="" />
 
         {isHovered && (
           <div className="hover">
             <Fade>
               <Link to="/watch" state={{ movie: movie }}>
                 <div className="imageVideoContainer">
-                  <img src={movie.img} alt="" />
+                  <img src={movie.imgSm} alt="" />
                   <video src={movie.trailer} autoPlay loop muted />
                 </div>
               </Link>

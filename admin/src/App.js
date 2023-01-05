@@ -19,6 +19,10 @@ import PrivateRoute from "./utilities/PrivateRoute";
 import PreventSigninRoute from "./utilities/PreventSigninRoute";
 import { Toaster } from "react-hot-toast";
 import List from "./pages/list/List";
+import SeriesList from "./pages/serires list/SeriesList";
+import SingleSeries from "./pages/single series/SingleSeries";
+import AddSeries from "./pages/addSeries/AddSeries";
+import AddRemoveSeasons from "./pages/seasons&episodes/AddRemoveSeasons";
 
 function App() {
   // console.log(user);
@@ -67,6 +71,23 @@ function App() {
               <Movie />
             </PrivateRoute>
             <PrivateRoute path="/addcontent">
+              <AddContent />
+            </PrivateRoute>
+
+            {/* Series */}
+            <PrivateRoute path="/series">
+              <SeriesList />
+            </PrivateRoute>
+            <PrivateRoute path="/singleSeries/:id">
+              <SingleSeries />
+            </PrivateRoute>
+            <PrivateRoute path="/addseries">
+              <AddSeries />
+            </PrivateRoute>
+            <PrivateRoute path="/editseasons/:id">
+              <AddRemoveSeasons />
+            </PrivateRoute>
+            <PrivateRoute path="/editepisodes/:id">
               <AddContent />
             </PrivateRoute>
           </div>

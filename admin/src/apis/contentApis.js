@@ -2,9 +2,25 @@ import { axiosInstance } from "../utilities/axiosHelper";
 import { getAuthHeader, getTokenCookie } from "../utilities/authTools";
 
 export const getMovies = async () => {
-  let response = await axiosInstance.post(
+  let response = await axiosInstance.get(
+    "content/getallmovies",
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+export const getSeries = async () => {
+  let response = await axiosInstance.get(
+    "content/getallseries",
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+export const getAllContent = async () => {
+  let response = await axiosInstance.get(
     "content/getall",
-    {},
+
     getAuthHeader()
   );
   return response.data;

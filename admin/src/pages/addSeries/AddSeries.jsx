@@ -1,11 +1,11 @@
 import { useState } from "react";
-import "./addContent.css";
+import "./addSeries.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  addContentSchema,
-  createContentSchema,
-} from "../../validations/contentValidation";
+  addSeriesSchema,
+  createSeriesSchema,
+} from "../../validations/seriesValidations";
 import { storage } from "../../utilities/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addContent } from "../../apis/contentApis";
@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { v4 } from "uuid";
 import { useHistory } from "react-router-dom";
 
-export default function NewProduct() {
+export default function AddSeries() {
   let history = useHistory();
   const {
     register,
@@ -23,7 +23,7 @@ export default function NewProduct() {
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(addContentSchema),
+    resolver: yupResolver(addSeriesSchema),
   });
   const [content, setContent] = useState({
     title: "",
@@ -96,7 +96,6 @@ export default function NewProduct() {
         { file: data.imgTitle[0], label: "imgTitle" },
         { file: data.imgSm[0], label: "imgSm" },
         { file: data.trailer[0], label: "trailer" },
-        { file: data.video[0], label: "video" },
       ];
 
       uploadContent(filesToBeUploaded, data);
@@ -109,11 +108,9 @@ export default function NewProduct() {
   useEffect(() => {
     const createContent = async () => {
       try {
-        setContentCreationStatus("Creating new content...");
-
-        if (uploaded === 5) {
-          console.log("in uploaded effect if");
-          let data = await createContentSchema.validate(dataToBeUploaded);
+        if (uploaded === 4) {
+          setContentCreationStatus("Creating new content...");
+          let data = await createSeriesSchema.validate(dataToBeUploaded);
 
           if (data) {
             let response = await addContent(data);
@@ -122,8 +119,8 @@ export default function NewProduct() {
             if (response) {
               setContentCreationStatus("");
               setLoading(false);
-              history.push("/movies");
-              toast.success("Content Added!");
+              toast.success("Series Added!");
+              history.push("/series");
             }
           }
         }
@@ -135,11 +132,9 @@ export default function NewProduct() {
     };
     createContent();
   }, [uploaded]);
-  console.log(content);
-
   return (
     <div className="newProduct">
-      <h1 className="addProductTitle">Add content</h1>
+      <h1 className="addProductTitle">Add Series</h1>
       <form className="addProductForm" onSubmit={handleSubmit(submitForm)}>
         <div className="addProductItem">
           <label>Image</label>
@@ -306,17 +301,7 @@ export default function NewProduct() {
             ""
           )}
         </div>
-        <div className="addProductItem">
-          <label>Video</label>
-          <input type="file" name="video" {...register("video")} />
-          {errors.video ? (
-            <div className="invalidFeedbackContent">
-              {errors.video?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
+
         <div className="buttonContainer">
           {loading ? (
             <>
@@ -327,7 +312,7 @@ export default function NewProduct() {
             </>
           ) : (
             <button type="submit" className="addProductButton">
-              Upload
+              Next
             </button>
           )}
         </div>

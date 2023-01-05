@@ -11,3 +11,5 @@ export const GET_MOVIES = "get_movies";
 export const DELETE_MOVIE = "delete_movies";
 
 // Series
+export const GET_SERIES = "get_series";
+export const DELETE_SERIES = "delete_series";

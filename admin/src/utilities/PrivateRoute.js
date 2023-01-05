@@ -39,7 +39,7 @@ const PrivateRoute = ({ children, ...rest }) => {
   /* If in loading state, return loading message while waiting for 
  isValidToken to complete */
   if (state === "loading") {
-    return <div>Loading..</div>;
+    return <div></div>;
   }
   return (
     <Route
