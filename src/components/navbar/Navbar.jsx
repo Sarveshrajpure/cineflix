@@ -57,7 +57,12 @@ const Navbar = () => {
 
           <Notifications className="icon" />
 
-          <Avatar name={profile.name} size={35} textSizeRatio={1} />
+          <Avatar
+            name={profile.name}
+            size={38}
+            textSizeRatio={2.5}
+            round="5px"
+          />
 
           <div className="profile">
             <ArrowDropDown className="icon" />
