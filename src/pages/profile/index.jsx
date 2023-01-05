@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Close, Add } from "@material-ui/icons";
 import "./profile.scss";
-
+import logo from "../../assets/Cineflix.svg";
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../../api/profileApis";
 import { useSelector } from "react-redux";
@@ -40,7 +40,9 @@ const Profile = () => {
   return (
     <div className="profileContainer">
       <div className="profileHeader">
-        <div>logo</div>
+        <div className="logoContainer">
+          <img src={logo} alt="Logo" />
+        </div>
         <div
           className="editDoneProfilesBtn"
           onClick={() => {

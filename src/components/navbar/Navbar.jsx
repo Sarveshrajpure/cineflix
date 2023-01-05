@@ -37,7 +37,7 @@ const Navbar = () => {
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
       <div className="container">
         <div className="left">
-          <img src={logo} alt="" />
+          <img src={logo} alt="Logo" />
           <Link to="/" className="link">
             <span>Home</span>
           </Link>
