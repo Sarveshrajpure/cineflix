@@ -58,7 +58,7 @@ export default function Sidebar() {
                 }`}
               >
                 <List className="sidebarIcon" />
-                Lists
+                Lists - (Curate content)
               </li>
             </Link>
             <Link to="/movies" className="link">

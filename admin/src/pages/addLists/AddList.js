@@ -124,7 +124,10 @@ export default function AddList() {
               );
             })}
           </select>
-          <small>CTRL + Right click to select multiple</small>
+          <small>
+            CTRL + Right click or Right click hold and drag to select multiple
+            down
+          </small>
           {errors.content ? (
             <div className="invalidFeedbackContent">
               {errors.content?.message}
@@ -144,7 +147,7 @@ export default function AddList() {
           )}
         </div>
       </form>{" "}
-      {error ? <div className="addListError">Error: {error}</div> : ""}
+      {error ? <div className="addListError">Error: {error} !</div> : ""}
     </div>
   );
 }

@@ -8,7 +8,7 @@ export const getUserStats = async (values) => {
 };
 
 export const loginUser = async (values) => {
-  let response = await axiosInstance.post("/auth/signin", values);
+  let response = await axiosInstance.post("/auth/adminsignin", values);
 
   return response.data;
 };
