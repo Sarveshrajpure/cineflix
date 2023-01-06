@@ -25,27 +25,11 @@ export default function AddSeries() {
     mode: "onChange",
     resolver: yupResolver(addSeriesSchema),
   });
-  const [content, setContent] = useState({
-    title: "",
-    desc: "",
-    year: "",
-    genre: "",
-    duration: "",
-    limit: "",
-    type: "",
-  });
+
   const [uploaded, setUploaded] = useState(0);
   const [dataToBeUploaded, setDataToBeUploaded] = useState({});
   const [contentCreationStatus, setContentCreationStatus] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    setContent((prev) => {
-      return { ...prev, [e.target.name]: value };
-    });
-  };
 
   const uploadContent = (items, data) => {
     setContentCreationStatus("Uploading Files..");
@@ -131,7 +115,7 @@ export default function AddSeries() {
       }
     };
     createContent();
-  }, [uploaded]);
+  }, [dataToBeUploaded, history, uploaded]);
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">Add Series</h1>
@@ -178,7 +162,6 @@ export default function AddSeries() {
             type="text"
             placeholder="John wick"
             name="title"
-            onInput={handleChange}
             {...register("title")}
           />
           {errors.title ? (
@@ -195,7 +178,6 @@ export default function AddSeries() {
             type="text"
             placeholder="description"
             name="desc"
-            onInput={handleChange}
             {...register("desc")}
           />{" "}
           {errors.desc ? (
@@ -210,7 +192,6 @@ export default function AddSeries() {
             type="text"
             placeholder="year"
             name="year"
-            onInput={handleChange}
             {...register("year")}
           />{" "}
           {errors.year ? (
@@ -225,7 +206,6 @@ export default function AddSeries() {
             type="text"
             placeholder="genre"
             name="genre"
-            onInput={handleChange}
             {...register("genre")}
           />{" "}
           {errors.genre ? (
@@ -242,7 +222,6 @@ export default function AddSeries() {
             type="text"
             placeholder="duration"
             name="duration"
-            onInput={handleChange}
             {...register("duration")}
           />{" "}
           {errors.duration ? (
@@ -259,7 +238,6 @@ export default function AddSeries() {
             type="text"
             placeholder="limit"
             name="limit"
-            onInput={handleChange}
             {...register("limit")}
           />{" "}
           {errors.limit ? (
@@ -272,12 +250,7 @@ export default function AddSeries() {
         </div>
         <div className="addProductItem">
           <label>Type</label>
-          <select
-            name="type"
-            id="type"
-            onInput={handleChange}
-            {...register("type")}
-          >
+          <select name="type" id="type" {...register("type")}>
             <option defaultChecked value="">
               Select content type
             </option>
@@ -312,7 +285,7 @@ export default function AddSeries() {
             </>
           ) : (
             <button type="submit" className="addProductButton">
-              Next
+              Add
             </button>
           )}
         </div>

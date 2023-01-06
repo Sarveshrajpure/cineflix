@@ -25,10 +25,13 @@ export default function Sidebar() {
   };
 
   useEffect(() => {
-    setCurrentLocation(location.pathname);
+    let pathName = location.pathname.split("/")[1];
+
+    setCurrentLocation("/" + pathName);
   }, [location]);
 
   const [curentLocation, setCurrentLocation] = useState("home");
+  console.log(curentLocation);
 
   return (
     <div className="sidebar">
@@ -54,7 +57,9 @@ export default function Sidebar() {
             <Link to="/lists" className="link">
               <li
                 className={`sidebarListItem ${
-                  curentLocation === "/lists" ? "active" : ""
+                  curentLocation === "lists" || curentLocation === "list"
+                    ? "active"
+                    : ""
                 }`}
               >
                 <List className="sidebarIcon" />
@@ -64,7 +69,11 @@ export default function Sidebar() {
             <Link to="/movies" className="link">
               <li
                 className={`sidebarListItem ${
-                  curentLocation === "/movies" ? "active" : ""
+                  curentLocation === "/movies" ||
+                  curentLocation === "/addcontent" ||
+                  curentLocation === "/movie"
+                    ? "active"
+                    : ""
                 }`}
               >
                 <Movie className="sidebarIcon" />
@@ -74,7 +83,11 @@ export default function Sidebar() {
             <Link to="/series" className="link">
               <li
                 className={`sidebarListItem ${
-                  curentLocation === "/series" ? "active" : ""
+                  curentLocation === "/series" ||
+                  curentLocation === "/editseasons" ||
+                  curentLocation === "/editepisodes"
+                    ? "active"
+                    : ""
                 }`}
               >
                 <Theaters className="sidebarIcon" />

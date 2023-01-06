@@ -57,3 +57,14 @@
 .uploadStatus {
   text-align: center;
 }
+
+.seasonIdHidden {
+  display: none;
+}
+
+.addRemoveEpisodeBottom {
+  height: 65%;
+}
+.episodeList {
+  height: 100%;
+}

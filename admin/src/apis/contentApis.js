@@ -1,5 +1,5 @@
 import { axiosInstance } from "../utilities/axiosHelper";
-import { getAuthHeader, getTokenCookie } from "../utilities/authTools";
+import { getAuthHeader } from "../utilities/authTools";
 
 export const getMovies = async () => {
   let response = await axiosInstance.get(
@@ -46,6 +46,15 @@ export const deleteMovie = async (values) => {
 export const addContent = async (values) => {
   let response = await axiosInstance.post(
     "content/addcontent",
+    values,
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+export const updateContent = async (values) => {
+  let response = await axiosInstance.post(
+    "content/updatecontent",
     values,
     getAuthHeader()
   );

@@ -1,36 +1,27 @@
 import { axiosInstance } from "../utilities/axiosHelper";
 import { getAuthHeader } from "../utilities/authTools";
 
-export const getAllseasonsByContentId = async (values) => {
+export const getEpisodes = async (values) => {
   let response = await axiosInstance.post(
-    "season/getall",
+    "episode/getall",
     values,
     getAuthHeader()
   );
   return response.data;
 };
 
-export const getAllseasonsById = async (values) => {
+export const addEpisode = async (values) => {
   let response = await axiosInstance.post(
-    "season/getseasonbyid",
+    "episode/addepisode",
     values,
     getAuthHeader()
   );
   return response.data;
 };
 
-export const addSeason = async (values) => {
+export const deleteEpisode = async (values) => {
   let response = await axiosInstance.post(
-    "season/addseason",
-    values,
-    getAuthHeader()
-  );
-  return response.data;
-};
-
-export const deleteSeasonById = async (values) => {
-  let response = await axiosInstance.post(
-    "season/deleteseason",
+    "episode/deleteepisode",
     values,
     getAuthHeader()
   );

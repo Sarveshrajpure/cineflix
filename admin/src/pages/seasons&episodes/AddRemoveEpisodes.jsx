@@ -1,62 +1,76 @@
 import { useState } from "react";
-import "./addContent.css";
+import "./addRemoveEpisodes.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  addContentSchema,
-  createContentSchema,
-} from "../../validations/contentValidation";
+  addEpisodeFilesSchema,
+  createEpisodeSchema,
+} from "../../validations/episodesValidations";
+import { useParams } from "react-router-dom";
 import { storage } from "../../utilities/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { addContent } from "../../apis/contentApis";
+import { getEpisodes, addEpisode, deleteEpisode } from "../../apis/episodeApis";
+import { getAllseasonsById } from "../../apis/seasonsApis";
 import { useEffect } from "react";
 import BarLoader from "react-spinners/BarLoader";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
-import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { DeleteOutline } from "@material-ui/icons";
+import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 
-export default function NewProduct() {
-  let history = useHistory();
+export default function AddRemoveEpisodes() {
+  let seriesSeason = useParams();
+
+  const seriesInfo = useSelector((state) =>
+    state.Content.series ? state.Content.series : []
+  );
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(addContentSchema),
+    resolver: yupResolver(addEpisodeFilesSchema),
   });
-  const [content, setContent] = useState({
-    title: "",
-    desc: "",
-    year: "",
-    genre: "",
-    duration: "",
-    limit: "",
-    type: "",
-  });
+
   const [uploaded, setUploaded] = useState(0);
   const [dataToBeUploaded, setDataToBeUploaded] = useState({});
   const [contentCreationStatus, setContentCreationStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [getEpisodesLoader, setGetEpisodesLoader] = useState(false);
+  const [seriesDetails, setSeriesDetails] = useState([]);
+  const [seasonDetails, setSeasonDetails] = useState("");
+  const [episodeList, setEpisodeList] = useState([]);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    setContent((prev) => {
-      return { ...prev, [e.target.name]: value };
+  useEffect(() => {
+    let seriesFilter = seriesInfo.filter((item) => {
+      return item._id === seriesSeason.cid;
     });
-  };
+
+    setSeriesDetails(seriesFilter);
+  }, [seriesInfo, seriesSeason]);
+
+  useEffect(() => {
+    const fectchSeason = async () => {
+      try {
+        let response = await getAllseasonsById({ id: seriesSeason.id });
+
+        setSeasonDetails(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fectchSeason();
+  }, [seriesSeason]);
 
   const uploadContent = (items, data) => {
     setContentCreationStatus("Uploading Files..");
     let formData = {
+      seasonId: data.seasonId,
       title: data.title,
       desc: data.desc,
-      year: data.year,
-      limit: data.limit,
-      duration: data.duration,
-      genre: data.genre,
-      type: data.type,
     };
     setDataToBeUploaded(formData);
     items.forEach((item) => {
@@ -91,13 +105,7 @@ export default function NewProduct() {
     try {
       setLoading(true);
 
-      let filesToBeUploaded = [
-        { file: data.img[0], label: "img" },
-        { file: data.imgTitle[0], label: "imgTitle" },
-        { file: data.imgSm[0], label: "imgSm" },
-        { file: data.trailer[0], label: "trailer" },
-        { file: data.video[0], label: "video" },
-      ];
+      let filesToBeUploaded = [{ file: data.video[0], label: "video" }];
 
       uploadContent(filesToBeUploaded, data);
     } catch (error) {
@@ -107,23 +115,23 @@ export default function NewProduct() {
   };
 
   useEffect(() => {
-    const createContent = async () => {
+    const createEpisode = async () => {
       try {
         setContentCreationStatus("Creating new content...");
 
-        if (uploaded === 5) {
+        if (uploaded === 1) {
           console.log("in uploaded effect if");
-          let data = await createContentSchema.validate(dataToBeUploaded);
+          let data = await createEpisodeSchema.validate(dataToBeUploaded);
 
           if (data) {
-            let response = await addContent(data);
-            console.log(response);
+            let response = await addEpisode(data);
 
             if (response) {
               setContentCreationStatus("");
+              reset();
               setLoading(false);
-              history.push("/movies");
-              toast.success("Content Added!");
+              toast.success("Episode Added!");
+              setEpisodeList((prev) => [...prev, response]);
             }
           }
         }
@@ -133,57 +141,82 @@ export default function NewProduct() {
         console.log(error);
       }
     };
-    createContent();
-  }, [uploaded]);
-  console.log(content);
+    createEpisode();
+  }, [dataToBeUploaded, reset, uploaded]);
+
+  const handleDelete = async (id) => {
+    try {
+      if (seriesSeason.id) {
+        // eslint-disable-next-line no-unused-vars
+        let response = await deleteEpisode({
+          id: id,
+        });
+
+        let removeSeason = episodeList.filter((episode) => {
+          return episode._id !== id;
+        });
+        setEpisodeList(removeSeason);
+
+        toast.success("Episode deleted!");
+      }
+    } catch (error) {
+      toast.error("Error deleting Episode");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchEpisodes = async () => {
+      try {
+        setGetEpisodesLoader(true);
+        let response = await getEpisodes({ seasonId: seriesSeason.id });
+        setEpisodeList(response);
+        setGetEpisodesLoader(false);
+      } catch (error) {
+        console.log(error);
+        setGetEpisodesLoader(false);
+      }
+    };
+    fetchEpisodes();
+  }, [seriesSeason.id]);
+
+  const columns = [
+    { field: "_id", headerName: "ID", width: 250 },
+    { field: "seasonId", headerName: "", width: 250 },
+    { field: "title", headerName: "Title", width: 120 },
+    { field: "desc", headerName: "Description", width: 250 },
+
+    {
+      field: "action",
+      headerName: "Action",
+      width: 220,
+      renderCell: (params) => {
+        return (
+          <>
+            <DeleteOutline
+              className="movieListDelete"
+              onClick={() => handleDelete(params.row._id)}
+            />
+          </>
+        );
+      },
+    },
+  ];
 
   return (
     <div className="newProduct">
-      <h1 className="addProductTitle">Add content</h1>
+      <h1 className="addProductTitle">Add/Remove Episodes</h1>
+      <h3 className="addProductTitle">
+        Series title: {seriesDetails[0]?.title}
+      </h3>
+      <h3 className="addProductTitle">Season: {seasonDetails?.title}</h3>
       <form className="addProductForm" onSubmit={handleSubmit(submitForm)}>
-        <div className="addProductItem">
-          <label>Image</label>
-          <input type="file" id="img" name="img" {...register("img")} />
-          {errors.img ? (
-            <div className="invalidFeedbackContent">{errors.img?.message}</div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Title Image</label>
-          <input
-            type="file"
-            id="imgTitle"
-            name="imgTitle"
-            {...register("imgTitle")}
-          />
-          {errors.imgTitle ? (
-            <div className="invalidFeedbackContent">
-              {errors.imgTitle?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Thumbnail Image</label>
-          <input type="file" id="imageSm" name="imgSm" {...register("imgSm")} />
-          {errors.imgSm ? (
-            <div className="invalidFeedbackContent">
-              {errors.imgSm?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
         <div className="addProductItem">
           <label>Title</label>
           <input
             type="text"
             placeholder="John wick"
             name="title"
-            onInput={handleChange}
             {...register("title")}
           />
           {errors.title ? (
@@ -193,6 +226,14 @@ export default function NewProduct() {
           ) : (
             ""
           )}
+
+          <input
+            type="text"
+            name="seasonId"
+            value={seriesSeason.id}
+            {...register("seasonId")}
+            className="seasonIdHidden"
+          />
         </div>
         <div className="addProductItem">
           <label>Description</label>
@@ -200,108 +241,10 @@ export default function NewProduct() {
             type="text"
             placeholder="description"
             name="desc"
-            onInput={handleChange}
             {...register("desc")}
           />{" "}
           {errors.desc ? (
             <div className="invalidFeedbackContent">{errors.desc?.message}</div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Year</label>
-          <input
-            type="text"
-            placeholder="year"
-            name="year"
-            onInput={handleChange}
-            {...register("year")}
-          />{" "}
-          {errors.year ? (
-            <div className="invalidFeedbackContent">{errors.year?.message}</div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Genre</label>
-          <input
-            type="text"
-            placeholder="genre"
-            name="genre"
-            onInput={handleChange}
-            {...register("genre")}
-          />{" "}
-          {errors.genre ? (
-            <div className="invalidFeedbackContent">
-              {errors.genre?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Duration</label>
-          <input
-            type="text"
-            placeholder="duration"
-            name="duration"
-            onInput={handleChange}
-            {...register("duration")}
-          />{" "}
-          {errors.duration ? (
-            <div className="invalidFeedbackContent">
-              {errors.duration?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Limit</label>
-          <input
-            type="text"
-            placeholder="limit"
-            name="limit"
-            onInput={handleChange}
-            {...register("limit")}
-          />{" "}
-          {errors.limit ? (
-            <div className="invalidFeedbackContent">
-              {errors.limit?.message}
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Type</label>
-          <select
-            name="type"
-            id="type"
-            onInput={handleChange}
-            {...register("type")}
-          >
-            <option defaultChecked value="">
-              Select content type
-            </option>
-            <option value="movie">Movie</option>
-            <option value="series">Series</option>
-          </select>{" "}
-          {errors.type ? (
-            <div className="invalidFeedbackContent">{errors.type?.message}</div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="addProductItem">
-          <label>Trailer</label>
-          <input type="file" name="trailer" {...register("trailer")} />
-          {errors.trailer ? (
-            <div className="invalidFeedbackContent">
-              {errors.trailer?.message}
-            </div>
           ) : (
             ""
           )}
@@ -332,6 +275,25 @@ export default function NewProduct() {
           )}
         </div>
       </form>
+      <div className="addRemoveEpisodeBottom">
+        <div className="episodeList">
+          {!getEpisodesLoader ? (
+            <DataGrid
+              rows={episodeList[0] ? episodeList : []}
+              disableSelectionOnClick
+              columns={columns}
+              pageSize={8}
+              rowsPerPageOptions={episodeList}
+              getRowId={(r) => r._id}
+              components={{ Toolbar: GridToolbarFilterButton }}
+            />
+          ) : (
+            <div className="seasonsListloaderContainer">
+              <BarLoader color={"#008080"} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

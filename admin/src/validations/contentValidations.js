@@ -83,3 +83,19 @@ export const createContentSchema = yup.object().shape({
   genre: yup.string().required("Genre required"),
   type: yup.string().max(10).required("Content type required"),
 });
+
+export const updateContentSchema = yup.object().shape({
+  id: yup.string().required("Id required"),
+  title: yup.string().max(100).required("Content title required"),
+  desc: yup.string().max(500).required("Description required"),
+  img: yup.string(),
+  imgTitle: yup.string(),
+  imgSm: yup.string(),
+  trailer: yup.string().url().required(),
+  video: yup.string().url().required(),
+  year: yup.string().required("year required"),
+  limit: yup.string().max(10).required("Age Limit required"),
+  duration: yup.string().max(10),
+  genre: yup.string().required("Genre required"),
+  type: yup.string().max(10).required("Content type required"),
+});

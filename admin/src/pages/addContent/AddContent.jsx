@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   addContentSchema,
   createContentSchema,
-} from "../../validations/contentValidation";
+} from "../../validations/contentValidations";
 import { storage } from "../../utilities/fireBase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addContent } from "../../apis/contentApis";
@@ -134,7 +134,7 @@ export default function NewProduct() {
       }
     };
     createContent();
-  }, [uploaded]);
+  }, [dataToBeUploaded, history, uploaded]);
   console.log(content);
 
   return (

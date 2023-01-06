@@ -1,8 +1,9 @@
-import { Redirect, Outlet, Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login_user } from "../Actions/userActions";
 import { userIsAuth } from "../apis/userApis";
+import "./privateRoute.css";
 
 const PrivateRoute = ({ children, ...rest }) => {
   /* Track the state of your app instead. Start with a "loading" state */
@@ -38,8 +39,9 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   /* If in loading state, return loading message while waiting for 
  isValidToken to complete */
+
   if (state === "loading") {
-    return <div></div>;
+    return "";
   }
   return (
     <Route

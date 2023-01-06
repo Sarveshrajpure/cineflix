@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getSeries, deleteMovie } from "../../apis/contentApis";
 import { useDispatch } from "react-redux";
 import { get_series, delete_movies } from "../../Actions/contentActions";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -14,9 +14,20 @@ export default function SeriesList() {
   const series = useSelector((state) =>
     state.Content.series ? state.Content.series : []
   );
+  useEffect(() => {
+    const fetchSeries = async () => {
+      try {
+        let response = await getSeries();
+        dispatch(get_series(response));
+      } catch (error) {}
+    };
+
+    fetchSeries();
+  }, [dispatch]);
 
   const handleDelete = async (id, type) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       let response = await deleteMovie({ content_id: id, type: "series" });
 
       toast.success("Content deleted!");
@@ -28,20 +39,7 @@ export default function SeriesList() {
       toast.error("Error deleting content");
       console.log(error);
     }
-
-    // setData(data.filter((item) => item.id !== id));
   };
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        let response = await getSeries();
-        dispatch(get_series(response));
-      } catch (error) {}
-    };
-
-    fetchMovies();
-  }, []);
 
   const columns = [
     { field: "_id", headerName: "ID", width: 220 },
@@ -71,16 +69,16 @@ export default function SeriesList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/singleSeries/" + params.row._id}>
+            {/* <Link to={"/singleSeries/" + params.row._id}>
               <button className="movieListEdit">Edit</button>
-            </Link>
+            </Link> */}
 
             <Link to={"/editseasons/" + params.row._id}>
-              <button className="seriesListAddRemove">Seasons</button>
+              <button className="seriesListAddRemove">
+                Seasons & Episodes
+              </button>
             </Link>
-            <Link to={"/editepisodes/" + params.row._id}>
-              <button className="seriesListAddRemove">Episodes</button>
-            </Link>
+
             <DeleteOutline
               className="movieListDelete"
               onClick={() => handleDelete(params.row._id, params.row.type)}

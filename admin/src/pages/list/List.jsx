@@ -9,7 +9,6 @@ import { DeleteOutline } from "@material-ui/icons";
 import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { toast } from "react-hot-toast";
 import BarLoader from "react-spinners/BarLoader";
-import { useHistory } from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
@@ -28,13 +27,13 @@ export default function List() {
   const [content, setContent] = useState([]);
   const [contentTobeAddedInList, setContentTobeAddedinList] = useState([]);
   const [selectedContent, setSelectContent] = useState([]);
-  const history = useHistory();
 
   let listId = useParams();
 
   const handleDelete = async (id, type) => {
     try {
       if (list._id) {
+        // eslint-disable-next-line no-unused-vars
         let response = await deleteListItem({ id: list._id, contentId: id });
 
         let addMovieToContent = listContent.filter((movie) => {
@@ -82,7 +81,7 @@ export default function List() {
             content.push(response);
           }
           setListContent(content);
-          console.log(listContent);
+
           setLoading(false);
         }
       } catch (error) {
@@ -144,6 +143,7 @@ export default function List() {
           content: contentTobeAddedInList,
         };
 
+        // eslint-disable-next-line no-unused-vars
         let response = await addListItems(dataToBeSent);
 
         let map = new Map();

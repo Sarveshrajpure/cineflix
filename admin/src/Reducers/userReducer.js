@@ -1,7 +1,5 @@
 import {
-  REGISTER_USER,
   LOGIN_USER,
-  VERIFY_USER,
   SIGNOUT_USER,
 } from "../Actions/types";
 let userDefault = {

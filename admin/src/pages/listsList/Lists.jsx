@@ -2,7 +2,6 @@ import "./lists.css";
 import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { getLists, deleteLists } from "../../apis/listsApis";
 import { useDispatch } from "react-redux";
 import { delete_Lists, get_Lists } from "../../Actions/listActions";
@@ -16,6 +15,7 @@ export default function List() {
 
   const handleDelete = async (id, type) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       let response = await deleteLists({ id: id });
 
       toast.success("Content deleted!");

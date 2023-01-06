@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./addList.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addListSchema } from "../../validations/listValidations";
 import BarLoader from "react-spinners/BarLoader";
 import toast from "react-hot-toast";
-
+import { useDispatch } from "react-redux";
+import { get_movies } from "../../Actions/contentActions";
+import { getAllContent } from "../../apis/contentApis";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { addList } from "../../apis/listsApis";
 
 export default function AddList() {
+  const dispatch = useDispatch();
   const movies = useSelector((state) =>
     state.Content.movies ? state.Content.movies : []
   );
@@ -27,6 +30,20 @@ export default function AddList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        let response = await getAllContent();
+        console.log(response);
+        dispatch(get_movies(response));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchMovies();
+  }, [dispatch]);
+
   const submitForm = async (data, e) => {
     e.preventDefault();
     try {
@@ -38,6 +55,7 @@ export default function AddList() {
         content: data.content,
       };
       console.log(values);
+      // eslint-disable-next-line no-unused-vars
       let response = await addList(values);
       setLoading(false);
       history.push("/lists");

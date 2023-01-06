@@ -3,12 +3,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import "./app.css";
 import Home from "./pages/home/Home";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Lists from "./pages/listsList/Lists";
 import MovieList from "./pages/movieList/movieList";
 import Movie from "./pages/movie/Movie";
@@ -23,6 +18,7 @@ import SeriesList from "./pages/serires list/SeriesList";
 import SingleSeries from "./pages/single series/SingleSeries";
 import AddSeries from "./pages/addSeries/AddSeries";
 import AddRemoveSeasons from "./pages/seasons&episodes/AddRemoveSeasons";
+import AddRemoveEpisodes from "./pages/seasons&episodes/AddRemoveEpisodes";
 
 function App() {
   // console.log(user);
@@ -45,14 +41,12 @@ function App() {
           <Topbar />
           <div className="container">
             <Sidebar />
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-            <PrivateRoute exact path="/home">
+
+            <PrivateRoute exact path="/">
               <Home />
             </PrivateRoute>
-            {/* LISTS */}
 
+            {/* LISTS */}
             <PrivateRoute path="/lists">
               <Lists />
             </PrivateRoute>
@@ -87,8 +81,8 @@ function App() {
             <PrivateRoute path="/editseasons/:id">
               <AddRemoveSeasons />
             </PrivateRoute>
-            <PrivateRoute path="/editepisodes/:id">
-              <AddContent />
+            <PrivateRoute path="/editepisodes/:id/:cid">
+              <AddRemoveEpisodes />
             </PrivateRoute>
           </div>
         </>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getMovies, deleteMovie } from "../../apis/contentApis";
 import { useDispatch } from "react-redux";
 import { get_movies, delete_movies } from "../../Actions/contentActions";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -17,6 +17,7 @@ export default function MovieList() {
 
   const handleDelete = async (id, type) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       let response = await deleteMovie({ content_id: id, type: "movie" });
 
       toast.success("Content deleted!");
@@ -34,6 +35,7 @@ export default function MovieList() {
     const fetchMovies = async () => {
       try {
         let response = await getMovies();
+        console.log(response);
         dispatch(get_movies(response));
       } catch (error) {
         console.log(error);
@@ -41,7 +43,7 @@ export default function MovieList() {
     };
 
     fetchMovies();
-  }, []);
+  }, [dispatch]);
 
   const columns = [
     { field: "_id", headerName: "ID", width: 250 },
