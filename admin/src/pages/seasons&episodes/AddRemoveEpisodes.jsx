@@ -7,7 +7,7 @@ import {
   createEpisodeSchema,
 } from "../../validations/episodesValidations";
 import { useParams } from "react-router-dom";
-import { storage } from "../../utilities/fireBase";
+import { storage } from "../../utilities/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getEpisodes, addEpisode, deleteEpisode } from "../../apis/episodeApis";
 import { getAllseasonsById } from "../../apis/seasonsApis";

@@ -6,7 +6,7 @@ import {
   addContentSchema,
   createContentSchema,
 } from "../../validations/contentValidations";
-import { storage } from "../../utilities/fireBase";
+import { storage } from "../../utilities/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addContent } from "../../apis/contentApis";
 import { useEffect } from "react";
