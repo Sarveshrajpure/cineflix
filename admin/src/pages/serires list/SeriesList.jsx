@@ -1,50 +1,50 @@
-import "./movieList.css";
+import "./seriesList.css";
 import { DataGrid, GridToolbarFilterButton } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { getMovies, deleteMovie } from "../../apis/contentApis";
+import { getSeries, deleteMovie } from "../../apis/contentApis";
 import { useDispatch } from "react-redux";
-import { get_movies, delete_movies } from "../../Actions/contentActions";
+import { get_series, delete_movies } from "../../Actions/contentActions";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-export default function MovieList() {
+export default function SeriesList() {
   const dispatch = useDispatch();
-  const movie = useSelector((state) =>
-    state.Content.movies ? state.Content.movies : []
+  const series = useSelector((state) =>
+    state.Content.series ? state.Content.series : []
   );
 
   const handleDelete = async (id, type) => {
     try {
-      let response = await deleteMovie({ content_id: id, type: "movie" });
+      let response = await deleteMovie({ content_id: id, type: "series" });
 
       toast.success("Content deleted!");
-      let removeMovie = movie.filter((movie) => {
-        return movie._id !== id;
+      let removeMovie = series.filter((series) => {
+        return series._id !== id;
       });
       dispatch(delete_movies(removeMovie));
     } catch (error) {
       toast.error("Error deleting content");
       console.log(error);
     }
+
+    // setData(data.filter((item) => item.id !== id));
   };
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        let response = await getMovies();
-        dispatch(get_movies(response));
-      } catch (error) {
-        console.log(error);
-      }
+        let response = await getSeries();
+        dispatch(get_series(response));
+      } catch (error) {}
     };
 
     fetchMovies();
   }, []);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 250 },
+    { field: "_id", headerName: "ID", width: 220 },
     {
       field: "title",
       headerName: "Content Name",
@@ -58,20 +58,28 @@ export default function MovieList() {
         );
       },
     },
-    { field: "genre", headerName: "Genre", width: 120 },
-    { field: "year", headerName: "Year", width: 120 },
-    { field: "limit", headerName: "Limit", width: 120 },
-    { field: "type", headerName: "Type", width: 120 },
+    { field: "genre", headerName: "Genre", width: 110 },
+    { field: "year", headerName: "Year", width: 110 },
+    { field: "limit", headerName: "Limit", width: 110 },
+    { field: "type", headerName: "Type", width: 110 },
 
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 250,
+
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/movie/" + params.row._id}>
+            <Link to={"/singleSeries/" + params.row._id}>
               <button className="movieListEdit">Edit</button>
+            </Link>
+
+            <Link to={"/editseasons/" + params.row._id}>
+              <button className="seriesListAddRemove">Seasons</button>
+            </Link>
+            <Link to={"/editepisodes/" + params.row._id}>
+              <button className="seriesListAddRemove">Episodes</button>
             </Link>
             <DeleteOutline
               className="movieListDelete"
@@ -86,19 +94,21 @@ export default function MovieList() {
   return (
     <div className="movieList">
       <div className="contentTitleContainer">
-        <h1 className="contentTitle">Content</h1>
-        <Link to="/addcontent">
-          <button className="contentAddButton">Add content</button>
+        <h1 className="contentTitle">Tv Series</h1>
+        <Link to="/addseries">
+          <button className="contentAddButton">Add Series</button>
         </Link>
       </div>
-      {movie[0] ? (
+      {series[0] ? (
         <DataGrid
-          rows={movie}
+          rows={series}
+          rowHeight={90}
           disableSelectionOnClick
           columns={columns}
           pageSize={8}
           getRowId={(r) => r._id}
           components={{ Toolbar: GridToolbarFilterButton }}
+          sx={{ border: 5 }}
         />
       ) : (
         ""

@@ -109,7 +109,7 @@ const ListItem = ({ item, index }) => {
             <Fade>
               <Link to="/watch" state={{ movie: movie }}>
                 <div className="imageVideoContainer">
-                  <img src={movie.img} alt="" />
+                  <img src={movie.imgSm} alt="" />
                   <video src={movie.trailer} autoPlay loop muted />
                 </div>
               </Link>

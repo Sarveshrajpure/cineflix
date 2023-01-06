@@ -1,10 +1,16 @@
-import { GET_MOVIES, DELETE_MOVIE } from "../Actions/types";
+import {
+  GET_MOVIES,
+  DELETE_MOVIE,
+  GET_SERIES,
+  DELETE_SERIES,
+} from "../Actions/types";
 let contentDefault = {
   movies: [],
   series: [],
 };
 const contentReducer = (state = contentDefault, action) => {
   switch (action.type) {
+    // MOVIES
     case GET_MOVIES:
       return {
         ...state,
@@ -15,6 +21,19 @@ const contentReducer = (state = contentDefault, action) => {
       return {
         ...state,
         movies: action.payload,
+      };
+
+    // SERIES
+    case GET_SERIES:
+      return {
+        ...state,
+        series: action.payload,
+      };
+
+    case DELETE_SERIES:
+      return {
+        ...state,
+        series: action.payload,
       };
 
     default:
