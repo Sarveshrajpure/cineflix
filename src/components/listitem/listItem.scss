@@ -1,7 +1,7 @@
 .listItem {
   max-width: 230px;
   width: 230px;
-  height: 100%;
+  height: 121px;
   cursor: pointer;
   position: relative;
   user-select: none;
@@ -12,11 +12,11 @@
     width: 100%;
     height: 100%;
     z-index: 10;
-    object-fit: cover;
+    object-fit: fill;
   }
 
   .hover {
-    z-index: 99;
+    z-index: 100;
     height: max-content;
     width: 18rem;
     position: absolute;

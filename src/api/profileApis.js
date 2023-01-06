@@ -19,7 +19,6 @@ export const getProfile = async (values) => {
 };
 
 export const editProfile = async (values) => {
-  console.log(values);
   const profile = await axiosInstance.post(
     "profile/editprofile",
     {
@@ -33,7 +32,6 @@ export const editProfile = async (values) => {
 };
 
 export const addProfile = async (values) => {
-  console.log(values);
   const profile = await axiosInstance.post(
     "profile/addprofile",
     {
@@ -47,13 +45,40 @@ export const addProfile = async (values) => {
 };
 
 export const deleteProfile = async (values) => {
-  console.log(values);
   const profile = await axiosInstance.post(
     "profile/deleteprofile",
     {
       name: values.name,
       userId: values.userId,
       profileId: values.id,
+    },
+    getAuthHeader()
+  );
+
+  return profile.data;
+};
+
+export const addToFavourite = async (values) => {
+  console.log(values);
+  const profile = await axiosInstance.post(
+    "profile/addtofavourite",
+    {
+      profileId: values.id,
+      contentId: values.contentId,
+    },
+    getAuthHeader()
+  );
+
+  return profile.data;
+};
+
+export const removeFavourite = async (values) => {
+  console.log(values);
+  const profile = await axiosInstance.post(
+    "profile/removefavourite",
+    {
+      profileId: values.id,
+      contentId: values.contentId,
     },
     getAuthHeader()
   );

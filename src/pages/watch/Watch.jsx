@@ -12,7 +12,7 @@ const Watch = () => {
   return (
     <div className="watch">
       <div className="back">
-        <Link to="/" className="link">
+        <Link to="/home" className="link">
           <ArrowBackOutlined className="backIcon" />
         </Link>
       </div>

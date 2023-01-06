@@ -9,6 +9,7 @@ import Login from "./pages/login/Login";
 import Profile from "./pages/profile";
 import EditProfile from "./pages/profile/components/editProfile";
 import AddProfile from "./pages/profile/components/addProfile";
+import MyList from "./pages/myList";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/editProfile" element={<EditProfile />} />
         <Route exact path="/addProfile" element={<AddProfile />} />
         <Route exact path="/home" element={<Home />} />
+        <Route exact path="/myList" element={<MyList />} />
 
         <Route exact path="/movies" element={<Home type={"movies"} />} />
         <Route exact path="/series" element={<Home type={"series"} />} />

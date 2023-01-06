@@ -32,8 +32,8 @@ const Profile = () => {
     getProfiles();
   }, [user._id]);
 
-  const handleSelectProfile = (id, name) => {
-    dispatch(set_profile(id, name));
+  const handleSelectProfile = (id, name, favourites) => {
+    dispatch(set_profile(id, name, favourites));
     navigate("/home");
   };
 
@@ -76,7 +76,11 @@ const Profile = () => {
                 editState={editProfile}
                 key={index}
                 handleSelect={() => {
-                  handleSelectProfile({ id: item._id, name: item.name });
+                  handleSelectProfile({
+                    id: item._id,
+                    name: item.name,
+                    favourites: item.favourites,
+                  });
                 }}
               />
             );

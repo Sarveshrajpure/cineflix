@@ -19,7 +19,7 @@ export const userIsAuth = async () => {
   if (!getTokenCookie()) {
     return false;
   } else {
-    const user = await axiosInstance.get("/auth/isauth", getAuthHeader());
+    const user = await axiosInstance.get("auth/isauth", getAuthHeader());
 
     return user.data;
   }

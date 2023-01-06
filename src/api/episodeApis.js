@@ -1,10 +1,11 @@
 import { axiosInstance } from "../utilities/axiosHelper";
 import { getAuthHeader } from "../utilities/authTools";
 
-export const getRandomLists = async (values) => {
+export const getAllEpisodes = async (values) => {
   console.log(values);
-  let response = await axiosInstance.get(
-    `lists/getlists/${values}`,
+  let response = await axiosInstance.post(
+    "episode/getall",
+    values,
     getAuthHeader()
   );
 

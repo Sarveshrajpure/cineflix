@@ -3,7 +3,7 @@ import { getAuthHeader } from "../utilities/authTools";
 
 export const getContentById = async (values) => {
   let response = await axiosInstance.get(
-    `/content/get/${values}`,
+    `content/get/${values}`,
     getAuthHeader()
   );
 
@@ -12,7 +12,7 @@ export const getContentById = async (values) => {
 
 export const getRandomContent = async (values) => {
   let response = await axiosInstance.get(
-    `/content/randomContent${values}`,
+    `content/randomContent${values}`,
     getAuthHeader()
   );
 

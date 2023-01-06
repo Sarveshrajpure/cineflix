@@ -1,0 +1,38 @@
+.myListContainer{
+    background-color: black;
+    min-height: 100vh;
+    color:white
+}
+
+
+.contentMyListContainer{
+    position:absolute;
+    top:16%;
+    width:100%;
+    
+}
+
+.contentMyListHeader{
+    font-size: 48px;
+    padding: 0 0 0 3%;
+}
+
+.contentMyListBlock{
+margin: 4% 2% 2% 3%;
+display: flex;
+flex-wrap: wrap;
+gap: 1rem;
+padding:  2px ;
+}
+
+
+.myListEmptyMessage{
+    margin: 4% 2% 2% 2%;
+   display: flex;
+   flex-wrap: wrap;
+   color:rgb(59, 59, 59);
+   font-size: 24px;
+   display: flex;
+   justify-content: center;
+   text-align: center;
+}

@@ -37,8 +37,11 @@ const Navbar = () => {
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
       <div className="container">
         <div className="left">
-          <img src={logo} alt="Logo" />
-          <Link to="/" className="link">
+          <Link to="/home" className="link">
+            <img src={logo} alt="Logo" />
+          </Link>
+
+          <Link to="/home" className="link">
             <span>Home</span>
           </Link>
 
@@ -48,9 +51,9 @@ const Navbar = () => {
           <Link to="/movies" className="link">
             <span>Movies</span>
           </Link>
-
-          <span>New and Popular</span>
-          <span>My List</span>
+          <Link to="/myList" className="link">
+            <span>My List</span>
+          </Link>
         </div>
         <div className="right">
           <Search className="icon" />

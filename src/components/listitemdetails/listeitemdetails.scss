@@ -1,0 +1,106 @@
+
+	.dialogBodyContainer{
+        background-color: black;
+        color:white;
+        height:max-content;
+    }
+
+    .iconsDialog {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 1rem 3rem 0.2rem 3rem;
+        .controls {
+          display: flex;
+          gap: 0.5rem;
+          font-size: 14px;
+        }
+    
+        .icon {
+          color: white;
+        
+          cursor: pointer;
+          transition: 0.3s ease-in-out;
+          border: 2px solid white;
+          padding: 5px;
+          border-radius: 50%;
+          font-size: 1.6rem;
+    
+          &:hover {
+            color: #b8b8b8;
+          }
+        }
+      }
+
+
+ .imageVideoDialogContainer { 
+   height:90%;
+   background-color: black;
+    video {
+      width: 100%;
+      height: auto;
+      object-fit: fill;
+      top: 0;
+   
+    }
+    
+  }
+
+  .dialogContentSummaryBlock{
+    display: flex;
+
+    justify-content: space-between;
+    padding: 1rem 3rem 1rem 3rem;
+  }
+
+  .dialogContentDesc{
+    width:60%;
+  }
+
+  .dialogContentInfo{
+    width:30%;
+  }
+
+  .dialogContentItemInfoTop{
+    
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .dialogContentType{
+
+    
+    font-size: 22px;
+    font-weight: 300;
+  }
+
+  .dialogContentInfo{
+  
+    padding:0.4rem ;
+    height:max-content;
+  
+  }
+
+  .dialogGenres{
+    
+  }
+.dialogEpisodesHeader{
+  font-size: 22px;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+
+}
+  .dialogSeasonDropDown{
+   
+    padding: 1rem 3rem 1rem 3rem;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+  }
+
+  .dialogEpisodeContainer{
+    
+    height: max-content;
+  }
